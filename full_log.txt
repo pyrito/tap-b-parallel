@@ -1,0 +1,18 @@
+Warning: Link file SiouxFalls_net.txt does not contain distance factor, setting to 0 as default.
+Warning: Link file SiouxFalls_net.txt does not contain toll factor, setting to 0 as default.
+Nodes, arcs, zones, thrunode: 24 76 24 0
+Distance factor, toll factor: 0.000000 0.000000
+24 nodes, 76 arcs, and 24 zones
+Total demand 360600.000000 compared to metadata 360600.000000
+File read and memory allocated.
+Forward and reverse star lists generated.
+Starting Algorithm B...
+Iteration 1: gap 0.410763737773781, Beckmann 4303288.251482, time 0.004 s.
+Iteration 2: gap 0.108375937872162, Beckmann 4237068.642691, time 0.007 s.
+Iteration 3: gap 0.002353662592036, Beckmann 4231349.371479, time 0.010 s.
+Iteration 4: gap 0.000089874377240, Beckmann 4231337.6748, time 0.013 s.
+Iteration 5: gap 0.000310730158539, Beckmann 4231335.86206, time 0.017 s.
+Iteration 6: gap 0.000156281224227, Beckmann 4231335.429006, time 0.020 s.
+Iteration 7: gap 0.000077189565923, Beckmann 4231335.321892, time 0.023 s.
+Iteration 8: gap 0.000038169429881, Beckmann 4231335.295634, time 0.026 s.
+Fatal error: 0 unreachable from 12 on bush longest path
