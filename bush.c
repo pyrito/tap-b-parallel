@@ -5,7 +5,7 @@
 */
 #include "bush.h"
 #include <pthread.h> /*used in other parts of the assignment */
-#define NUM_THREADS 2
+#define NUM_THREADS 4
 #define PAR			1
 
 //Struct for thread arguments
@@ -17,10 +17,10 @@ struct thread_args {
 	bool** inBush;
 	long** bushOrder;
 	double** bushFlows;
-	double** SPcosts;
-	double** LPcosts;
-	long** SPtree;
-	long** LPtree;
+	double* SPcosts;
+	double* LPcosts;
+	long* SPtree;
+	long* LPtree;
     algorithmBParameters_type *parameters;
 };
 
@@ -33,18 +33,15 @@ void updateBushes(void* pVoid) {
 	bool** inBush = args->inBush;
 	long** bushOrder = args->bushOrder;
 	double** bushFlows = args->bushFlows;
-	double* SPcosts = args->SPcosts[args->id];
-	double* LPcosts = args->LPcosts[args->id];
-	long* SPtree = args->SPtree[args->id];
-	long* LPtree = args->LPtree[args->id];
+	double* SPcosts = args->SPcosts;
+	double* LPcosts = args->LPcosts;
+	long* SPtree = args->SPtree;
+	long* LPtree = args->LPtree;
     algorithmBParameters_type *parameters = args->parameters;
 	// displayMessage(FULL_NOTIFICATIONS, "Thread stuff spcosts: %p sptree: %p\n", 
     //                                         SPcosts, SPtree);
     for (; start < start + num && start < network->numZones; start++) {
-        
         updateBushB(start, network, inBush[start], bushFlows[start], SPcosts, LPcosts, bushOrder[start], SPtree, LPtree, parameters);
-
-//        updateFlowsB(origin, network, bushes, parameters);
     }
 }
 
@@ -116,11 +113,11 @@ void AlgorithmB(network_type *network, algorithmBParameters_type *parameters) {
 			args[j].inBush = inBush;
 			args[j].bushOrder = bushOrder;
 			args[j].bushFlows = bushFlows;
-			args[j].SPcosts = SPcosts_par;
-			args[j].LPcosts = LPcosts_par;
+			args[j].SPcosts = SPcosts_par[j];
+			args[j].LPcosts = LPcosts_par[j];
 			args[j].bushOrder = bushOrder;
-			args[j].SPtree = SPtree_par;
-			args[j].LPtree = LPtree_par;
+			args[j].SPtree = SPtree_par[j];
+			args[j].LPtree = LPtree_par[j];
 			args[j].parameters = parameters;
 		}
 
@@ -206,6 +203,7 @@ void findBushSP(network_type *network, bool *inBush, long *bushOrder, long *SPtr
    arcListElt *curArc;
 	long i, ij, curnode;
 
+	//displayMessage(FULL_NOTIFICATIONS, "we are before the first for loop in findBushSP\n");
 	for (i = 0; i < network->numNodes; i++) {
 		// displayMessage(FULL_NOTIFICATIONS, "SPcosts: %d sptree: %d\n", 
         //                                     SPcosts[i], SPtree[i]);

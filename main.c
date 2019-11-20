@@ -85,18 +85,22 @@
 */
 #include "main.h"
 
-int main() {
+int main(int argc, char* argv[]) {
    verbosity = FULL_NOTIFICATIONS; /* verbosity is a global variable affecting how much text is output; see utils.c */
    #ifdef DEBUG_MODE
       debugFile = openFile("full_log.txt", "w");
    #endif
+
+   if (argc != 3) 
+         fatalError("Must specify two arguments\n\nUsage: tap "
+                    "networkfile demandfile\n");
 
    network_type *network = newScalar(network_type);
    algorithmBParameters_type Bparameters = initializeAlgorithmBParameters();
    FrankWolfeParameters_type FWparameters = initializeFrankWolfeParameters();
    MSAparameters_type MSAparameters = initializeMSAparameters();
 
-   readOBANetwork(network, "SiouxFalls_net.txt", "SiouxFalls_trips.txt");
+   readOBANetwork(network, argv[1], argv[2]);
    makeStronglyConnectedNetwork(network); /* Check connectivity */
 
    // displayMessage(FULL_NOTIFICATIONS, "Starting Frank-Wolfe...\n");
@@ -109,9 +113,9 @@ int main() {
    Bparameters.gapFunction = AEC;
    AlgorithmB(network, &Bparameters);
 
-   displayMessage(FULL_NOTIFICATIONS, "Equilibrium done, press a key to see link flows.\n");
-   waitForKey();
-   displayNetwork(LOW_NOTIFICATIONS, network);
+   // displayMessage(FULL_NOTIFICATIONS, "Equilibrium done, press a key to see link flows.\n");
+   // waitForKey();
+   // displayNetwork(LOW_NOTIFICATIONS, network);
 
    deleteNetwork(network);
 
