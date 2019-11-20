@@ -5,7 +5,7 @@
 */
 #include "bush.h"
 #include <pthread.h> /*used in other parts of the assignment */
-#define NUM_THREADS 4
+#define NUM_THREADS 8
 #define PAR			1
 
 //Struct for thread arguments
@@ -40,7 +40,10 @@ void updateBushes(void* pVoid) {
     algorithmBParameters_type *parameters = args->parameters;
 	// displayMessage(FULL_NOTIFICATIONS, "Thread stuff spcosts: %p sptree: %p\n", 
     //                                         SPcosts, SPtree);
-    for (; start < start + num && start < network->numZones; start++) {
+	int end = start + num;
+    for (; start < end && start < network->numZones; start++) {
+		// displayMessage(FULL_NOTIFICATIONS, "Thread stuff thread id: %d origin: %d max: %d\n", 
+        //                                     args->id, start, start+num);
         updateBushB(start, network, inBush[start], bushFlows[start], SPcosts, LPcosts, bushOrder[start], SPtree, LPtree, parameters);
     }
 }
